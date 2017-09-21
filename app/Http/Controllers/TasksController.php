@@ -12,9 +12,9 @@ class TasksController extends Controller
 		return view('tasks.index', compact('tasks'));
 	}
     
-    public function show($id)
+    public function show(Task $task)	// The variable name $task should match with wildcard in the route in web.php or else it won't work. It does autom. Task::find($task)
     {
-    	$task = Task::find($id);
+    	return $task;
     	return view('tasks.show', compact('task'));
     }
 }
