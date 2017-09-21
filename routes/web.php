@@ -24,15 +24,25 @@ Route::get('/', 'PostsController@index');
 //create posts migration - php artisan make:migration create_posts_table --create=posts
 //OR php artisan make:model Post -mc  <---- create all three together
 
-Route::get('/posts/create', 'PostsController@create');
-// Route::get('/posts/{post}', 'PostsController@show');
 
+
+// Problem(Soln. below): if I put Route::get('/posts/{post}','PostController@show'); before Route::get('/posts/create','PostController@create'); I will get error .
+Route::get('/posts/create', 'PostsController@create');
+
+// ***** NOTE *****
+// Solution: Because Laravel will try to match the route according to the ORDER of routes registered. If you list it first, it will take priority over the other one. If you try to access "/posts/create", Laravel will match it to 'posts/{post}' and will use 'PostController@show' because '{post}' acts as a wild card. So, 'create' will be accepted as the value of the wild card '{post}'. Since there is no post with an id of 'create', you get your error.
+// This will not happen if you list it at the bottom because the right controller will be triggered for the route '/posts/create'.
+
+
+// Route::get('/posts/{post}', 'PostsController@show');
+Route::get('/posts/{post}', 'PostsController@show');
 // posts
 
 //****NOTE -  Use php artisan make:Controller PostsController -r  <--- to create the below methods in controller automatically 
 // GET /posts
 
 // GET /posts/create
+
 
 // POST /posts  -- to submit post
 Route::post('/posts', 'PostsController@store');
