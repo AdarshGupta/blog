@@ -11,5 +11,9 @@ class Post extends Model
     // This allows mass assignment using Post::createt(..) in PostController.php... method store()
     // OR
     // protected $guarded = []; <-- It's opposite of $fillable...fields which are not allowed
+    public function comments()
+    {
+    	return $this->hasMany(Comment::class);
+    }
 
 }
