@@ -55,3 +55,7 @@ Route::post('/posts', 'PostsController@store');
 
 // DELETE /posts/{id} -- to delete a post
 
+
+
+// Comments
+Route::post('/posts/{post}/comments', 'CommentsController@store');
