@@ -7,6 +7,11 @@ use App\Post;
 
 class PostsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'show']);
+    } 
+
     public function index()
     {
         $posts = Post::latest()->get();
@@ -42,15 +47,23 @@ class PostsController extends Controller
 
         // OR
         // But it would give massassignment error for security reasons
-        Post::create([
-            'title' => request('title'),
-            'body' => request('body')
-        ]);
+        // Post::create([
+        //     'title' => request('title'),
+        //     'body' => request('body'),
+        //     'user_id' => auth()->id()
+        // ]);
 
         // can also be written as
         //Post::create(request(['title', 'body']));
+
+        //OR
+
+        auth()->user()->publish(
+            new Post(request(['title', 'body'])) // uses User.php
+        );
 
         // And then redirect to the home page.
         return redirect('/');
     }
 }
+

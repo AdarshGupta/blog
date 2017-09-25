@@ -35,7 +35,7 @@ Route::get('/posts/create', 'PostsController@create');
 
 
 // Route::get('/posts/{post}', 'PostsController@show');
-Route::get('/posts/{post}', 'PostsController@show');
+Route::get('/posts/{post}', 'PostsController@show')->name('home');
 // posts
 
 //****NOTE -  Use php artisan make:Controller PostsController -r  <--- to create the below methods in controller automatically 
@@ -59,3 +59,12 @@ Route::post('/posts', 'PostsController@store');
 
 // Comments
 Route::post('/posts/{post}/comments', 'CommentsController@store');
+
+
+// User Authentication
+Route::get('/register', 'RegistrationController@create');
+Route::post('/register', 'RegistrationController@store');
+
+Route::get('/login', 'SessionController@create');
+Route::post('/login', 'SessionController@store');
+Route::get('/logout', 'SessionController@destroy');
