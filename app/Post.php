@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+Use Carbon\Carbon;
 
 class Post extends Model
 {
@@ -33,6 +34,22 @@ class Post extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    // Query Scope
+    public function scopeFilter($query, $filters)
+    {
+        $posts = Post::latest();
+
+        if($month = $filters['month'])
+        {
+            $query->whereMonth('created_at', Carbon::parse($month)->month);
+        }
+
+        if($year = $filters['year'])
+        {
+            $query->whereYear('created_at', $year);
+        }
     }
 
 }
