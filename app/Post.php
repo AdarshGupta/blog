@@ -39,17 +39,22 @@ class Post extends Model
     // Query Scope
     public function scopeFilter($query, $filters)
     {
-        $posts = Post::latest();
-
-        if($month = $filters['month'])
+        if(isset($filters['month']))
         {
+            $month = $filters['month'];
             $query->whereMonth('created_at', Carbon::parse($month)->month);
         }
 
-        if($year = $filters['year'])
+        if(isset($filters['year']))
         {
+            $year = $filters['year'];
             $query->whereYear('created_at', $year);
         }
+    }
+
+    public static function archives()
+    {
+        return static::selectRaw('year(created_at) year, monthname(created_at) month, count(*) published')->groupBy('year', 'month')->orderByRaw('min(created_at) desc')->get()->toArray();
     }
 
 }

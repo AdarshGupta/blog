@@ -13,7 +13,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        //works when the view is loaded
+        // Is used here to load archives wherever there is sidebar layout
+        // Registered  a composer - 'layouts.sidebar'
+        view()->composer('layouts.sidebar', function($view){
+            $view->with('archives', \App\Post::archives()); 
+            // 'archives' => App\Post::archives()
+        });
     }
 
     /**

@@ -31,11 +31,18 @@ class PostsController extends Controller
         // $posts = $posts->get();
 
         //OR can be written as
-        $posts = Post::latest()->filter(request(['month', 'year']))->get();
+        $posts = Post::latest()
+                ->filter(request(['month', 'year']))
+                ->get();
 
-        $archives = Post::selectRaw('year(created_at) year, monthname(created_at) month, count(*) published')->groupBy('year', 'month')->orderByRaw('min(created_at) desc')->get()->toArray();
+        // Works only from index page since archive variable is defined here only
+        // So refactored in archives() method in Post.php
+        // $archives = Post::selectRaw('year(created_at) year, monthname(created_at) month, count(*) published')->groupBy('year', 'month')->orderByRaw('min(created_at) desc')->get()->toArray();
 
-    	return view('posts.index', compact('posts', 'archives'));
+        // Removed from here to make it globally acccessible - Placed in Service providers
+        //$archives = Post::archives();
+
+    	return view('posts.index', compact('posts'));
     }
 
     public function show(Post $post)
