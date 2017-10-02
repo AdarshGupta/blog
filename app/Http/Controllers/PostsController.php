@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Post;
-Use Carbon\Carbon;
+use Carbon\Carbon;
+use App\Repositories\Posts;
 
 class PostsController extends Controller
 {
@@ -13,7 +14,8 @@ class PostsController extends Controller
         $this->middleware('auth')->except(['index', 'show']);
     } 
 
-    public function index()
+    // The argument here is Automatic Dependency Ijection
+    public function index(Posts $posts)
     {
         // Refactored - Put into a Query scope method filter in Post.php
         // $posts = Post::latest();
@@ -31,9 +33,11 @@ class PostsController extends Controller
         // $posts = $posts->get();
 
         //OR can be written as
-        $posts = Post::latest()
-                ->filter(request(['month', 'year']))
-                ->get();
+        // $posts = Post::latest()
+        //         ->filter(request(['month', 'year']))
+        //         ->get();
+        // Replaced by Dependency Injection
+        $posts = $posts->all();
 
         // Works only from index page since archive variable is defined here only
         // So refactored in archives() method in Post.php
