@@ -3,9 +3,13 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Billing\Stripe;
 
 class AppServiceProvider extends ServiceProvider
 {
+    // Avoids loading on every single pade and only when requested but can't use
+    // here since we have some work being done in boot method
+    //protected $defer = true;
     /**
      * Bootstrap any application services.
      *
@@ -29,6 +33,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // Bind into the container
+        $this->app->singleton(Stripe::class, function(){
+            return new Stripe(config('services.stripe.secret'));
+            // returning an instance of a stripe class passing the secret API key
+        }); 
     }
 }
