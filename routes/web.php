@@ -11,6 +11,20 @@
 |
 */
 
+// Bind into the container
+App::bind('App\Billing\Stripe', function(){
+	return new \App\Billing\Stripe(config('services.stripe.secret'));
+	// returning an instance of a stripe class passing the secret API key
+});
+
+//resovle out of the container
+$stripe = App::make('App\Billing\Stripe');
+// OR $stripe = resolve('App\Billing\Stripe');
+dd($stripe);
+
+
+
+
 
 Route::get('/tasks', 'TasksController@index');
 
