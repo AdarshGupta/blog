@@ -8,12 +8,14 @@
 			{{ csrf_field() }}
 			<div class="form-group">
 				<label for="name">Name:</label>
-				<input type="text" class="form-control" id="name" name="name" required>
+				<input type="text" class="form-control" id="name" name="name" value="{{ Request::old('name') }}" required>
 			</div>
+
+			{{-- value="{{ Request::old('email')}}" helps remember old values filled in the fiels if submission failed --}}
 
 			<div class="form-group">
 				<label for="email">Email:</label>
-				<input type="email" class="form-control" id="email" name="email" required>
+				<input type="email" class="form-control" id="email" name="email" value="{{ Request::old('email') }}" required>
 			</div>
 
 			<div class="form-group">
