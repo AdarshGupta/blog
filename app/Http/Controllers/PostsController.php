@@ -14,8 +14,8 @@ class PostsController extends Controller
         $this->middleware('auth')->except(['index', 'show']);
     } 
 
-    // The argument here is Automatic Dependency Ijection
-    public function index(Posts $posts)
+
+    public function index()
     {
         // Refactored - Put into a Query scope method filter in Post.php
         // $posts = Post::latest();
@@ -33,11 +33,11 @@ class PostsController extends Controller
         // $posts = $posts->get();
 
         //OR can be written as
-        // $posts = Post::latest()
-        //         ->filter(request(['month', 'year']))
-        //         ->get();
-        // Replaced by Dependency Injection
-        $posts = $posts->all();
+        $posts = Post::latest()
+                ->filter(request(['month', 'year']))
+                ->get();
+        // Above can be Replaced by Dependency Injection below
+        //$posts = $posts->all();
 
         // Works only from index page since archive variable is defined here only
         // So refactored in archives() method in Post.php

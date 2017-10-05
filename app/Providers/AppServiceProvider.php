@@ -21,8 +21,17 @@ class AppServiceProvider extends ServiceProvider
         // Is used here to load archives wherever there is sidebar layout
         // Registered  a composer - 'layouts.sidebar'
         view()->composer('layouts.sidebar', function($view){
-            $view->with('archives', \App\Post::archives()); 
+            //$view->with('archives', \App\Post::archives()); 
             // 'archives' => App\Post::archives()
+
+            //$view->with('tags', \App\Tag::has('posts')->pluck('name'));
+            // To add tags to the sidebar
+            // has('posts') allows only tags which are associated some or other post
+
+            // OR
+            $archives = \App\Post::archives();
+            $tags = \App\Tag::has('posts')->pluck('name');
+            $view->with(compact('archives', 'tags'));
         });
     }
 
