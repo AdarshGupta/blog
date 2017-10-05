@@ -57,4 +57,10 @@ class Post extends Model
         return static::selectRaw('year(created_at) year, monthname(created_at) month, count(*) published')->groupBy('year', 'month')->orderByRaw('min(created_at) desc')->get()->toArray();
     }
 
+    public function tags()
+    {
+        // Posts and tags have many-to-many relationship
+        return $this->belongsToMany(Tag::class);
+    }
+
 }
